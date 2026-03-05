@@ -1,6 +1,6 @@
 {
 	"name": "whalejet-app",
-	"version": "2.0.0",
+	"version": "1.0.0",
 	"description": "The application for Whalejet, not a web proxy.",
 	"type": "module",
 	"engines": {
