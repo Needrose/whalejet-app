@@ -10,3 +10,8 @@ LICENSE
 README.md
 replit.nix
 .github/
+node_modules
+.git
+.env
+dist
+rewriter/wasm/out

@@ -1,10 +1,8 @@
 <p align="center"><img src="https://raw.githubusercontent.com/MercuryWorkshop/scramjet/main/assets/scramjet.png" height="200"></p>
 
-<h1 align="center">Scramjet Demo</h1>
+<h1 align="center">Whalejet</h1>
 
-The demo implementation of <a href="https://github.com/MercuryWorkshop/scramjet">Scramjet</a>, the most advanced web proxy.
-
-<a href="https://github.com/MercuryWorkshop/scramjet">Scramjet</a> is an experimental interception based web proxy designed with security, developer friendliness, and performance in mind. This project is made to evade internet censorship and bypass arbitrary web browser restrictions.
+The really cool non-web proxy that totally doesn't let you do things that a web proxy would let you do. 
 
 #### Refer to <a href="https://github.com/HeyPuter/browser.js">browser.js</a> where this project will now receive updates outside of just bypassing internet censorship.
 
@@ -40,8 +38,8 @@ export NVM_DIR="$HOME/.nvm"
 nvm install 20
 nvm use 20
 
-git clone https://github.com/MercuryWorkshop/Scramjet-App
-cd Scramjet-App
+git clone https://github.com/Needrose/whalejet-app
+cd whalejet-app
 ```
 
 Install dependencies
@@ -65,10 +63,8 @@ Resources for self-hosting:
 
 ### HTTP Transport
 
-The example uses [libcurl-transport](https://github.com/MercuryWorkshop/libcurl-transport) to fetch proxied data encrypted.
+Whalejet uses [libcurl-transport](https://github.com/MercuryWorkshop/libcurl-transport) to fetch proxied data encrypted.
 
-You may also want to use [epoxy-transport](https://github.com/MercuryWorkshop/epoxy-transport), a different way of fetching encrypted data.
-
-This example also now uses [wisp-js/server](https://www.npmjs.com/package/@mercuryworkshop/wisp-js) instead of the now outdated wisp-server-node. Please note that this can also be replaced with other wisp implementations like [wisp-server-python](https://github.com/MercuryWorkshop/wisp-server-python) which is highly recommended for production.
+It also uses [wisp-js/server](https://www.npmjs.com/package/@mercuryworkshop/wisp-js).
 
 See the [bare-mux](https://github.com/MercuryWorkshop/bare-mux) documentation for more information.

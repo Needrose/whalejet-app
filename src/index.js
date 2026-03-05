@@ -1,9 +1,13 @@
+import 'dotenv/config';
 import { createServer } from "node:http";
 import { fileURLToPath } from "url";
 import { hostname } from "node:os";
 import { server as wisp, logging } from "@mercuryworkshop/wisp-js/server";
 import Fastify from "fastify";
 import fastifyStatic from "@fastify/static";
+import fastifyCookie from "@fastify/cookie";
+import fastifyJwt from "@fastify/jwt";
+import fastifyFormbody from "@fastify/formbody";
 
 import { scramjetPath } from "@mercuryworkshop/scramjet/path";
 import { libcurlPath } from "@mercuryworkshop/libcurl-transport";
@@ -17,7 +21,7 @@ logging.set_level(logging.NONE);
 Object.assign(wisp.options, {
 	allow_udp_streams: false,
 	hostname_blacklist: [/example\.com/],
-	dns_servers: ["1.1.1.3", "1.0.0.3"],
+	dns_servers: ["1.1.1.3", "1.0.0.3"]
 });
 
 const fastify = Fastify({
@@ -33,6 +37,43 @@ const fastify = Fastify({
 				else socket.end();
 			});
 	},
+});
+
+const SECRET = process.env.SECRET
+
+fastify.register(fastifyFormbody);
+fastify.register(fastifyCookie);
+fastify.register(fastifyJwt, { secret: SECRET });
+
+const SITE_PASSWORD = process.env.SITE_PASSWORD
+
+fastify.get("/login", async (req, reply) => {
+    return reply.type("text/html").sendFile("login.html");
+});
+
+fastify.post("/login", async (req, reply) => {
+    if (req.body.password === SITE_PASSWORD) {
+        const token = fastify.jwt.sign({ authenticated: true });
+        reply.setCookie("token", token, {
+            path: "/",
+            httpOnly: true,
+            maxAge: 86400
+        });
+        return reply.redirect("/");
+    }
+    return reply.redirect("/login?error=1");
+});
+
+fastify.addHook("onRequest", async (req, reply) => {
+    if (req.url.startsWith("/login") || req.url.startsWith("/404") || req.url.startsWith("/favicon.ico")) return;
+
+    try {
+        const token = req.cookies.token;
+        if (!token) throw new Error("No token");
+        await fastify.jwt.verify(token);
+    } catch (err) {
+        return reply.redirect("/login");
+    }
 });
 
 fastify.register(fastifyStatic, {
