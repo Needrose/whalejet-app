@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/MercuryWorkshop/scramjet/main/assets/scramjet.png" height="200"></p>
+<p align="center"><img src="https://github.com/Needrose/whalejet-app/blob/main/public/wj.png?raw=true" height="200"></p>
 
 <h1 align="center">Whalejet</h1>
 
