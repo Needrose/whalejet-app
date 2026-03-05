@@ -66,7 +66,17 @@ fastify.register(proxy, {
     upstream: `http://127.0.0.1:8081`,
     prefix: '/wisp',
     websocket: true,
-    rewritePrefix: '/wisp'
+    rewritePrefix: '/wisp',
+	replyOptions: {
+        rewriteRequestHeaders: (request, headers) => {
+            return {
+                ...headers,
+                connection: 'upgrade',
+                upgrade: 'websocket',
+                host: '127.0.0.1:8081'
+            };
+        }
+    }
 });
 
 fastify.register(fastifyStatic, {
