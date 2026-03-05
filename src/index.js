@@ -2,12 +2,12 @@ import 'dotenv/config';
 import { createServer } from "node:http";
 import { fileURLToPath } from "url";
 import { hostname } from "node:os";
-import { server as wisp, logging } from "@mercuryworkshop/wisp-js/server";
 import Fastify from "fastify";
 import fastifyStatic from "@fastify/static";
 import fastifyCookie from "@fastify/cookie";
 import fastifyJwt from "@fastify/jwt";
 import fastifyFormbody from "@fastify/formbody";
+import proxy from '@fastify/http-proxy';
 
 import { scramjetPath } from "@mercuryworkshop/scramjet/path";
 import { libcurlPath } from "@mercuryworkshop/libcurl-transport";
@@ -15,28 +15,14 @@ import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 
 const publicPath = fileURLToPath(new URL("../public/", import.meta.url));
 
-// Wisp Configuration: Refer to the documentation at https://www.npmjs.com/package/@mercuryworkshop/wisp-js
-
-logging.set_level(logging.NONE);
-Object.assign(wisp.options, {
-	allow_udp_streams: false,
-	hostname_blacklist: [/example\.com/],
-	dns_servers: ["1.1.1.3", "1.0.0.3"]
-});
-
 const fastify = Fastify({
-	serverFactory: (handler) => {
-		return createServer()
-			.on("request", (req, res) => {
-				res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-				res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-				handler(req, res);
-			})
-			.on("upgrade", (req, socket, head) => {
-				if (req.url.endsWith("/wisp/")) wisp.routeRequest(req, socket, head);
-				else socket.end();
-			});
-	},
+    serverFactory: (handler) => {
+        return createServer((req, res) => {
+            res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+            res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+            handler(req, res);
+        });
+    },
 });
 
 const SECRET = process.env.SECRET
@@ -74,6 +60,13 @@ fastify.addHook("onRequest", async (req, reply) => {
     } catch (err) {
         return reply.redirect("/login");
     }
+});
+
+fastify.register(proxy, {
+    upstream: `http://127.0.0.1:8081`,
+    prefix: '/wisp',
+    websocket: true,
+    rewritePrefix: '/wisp'
 });
 
 fastify.register(fastifyStatic, {
