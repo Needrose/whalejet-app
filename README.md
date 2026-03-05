@@ -8,7 +8,7 @@ The really cool non-web proxy that totally doesn't let you do things that a web 
 
 ## Supported Sites
 
-Scramjet has CAPTCHA support! Some of the popular websites that Scramjet supports include:
+Whalejet has CAPTCHA support! Some of the popular websites that Whalejet supports include:
 
 - [Google](https://google.com)
 - [Twitter](https://twitter.com)
@@ -19,9 +19,15 @@ Scramjet has CAPTCHA support! Some of the popular websites that Scramjet support
 - [Reddit](https://reddit.com)
 - [GeForce NOW](https://play.geforcenow.com/)
 
-Ensure you are not hosting on a datacenter IP for CAPTCHAs to work reliably along with YouTube. Heavy amounts of traffic will make some sites NOT work on a single IP. Consider rotating IPs or routing through Wireguard using a project like <a href="https://github.com/whyvl/wireproxy">wireproxy</a>.
-
 ## Setup / Usage
+
+You will need to set these environnement variables.
+```
+SITE_PASSWORD=4321 # the password people are prompted with to use the site
+SECRET=change-me # please make this a long random string, just spam ur keyboard
+PROXY=http://user:pass@ip:port # sorry for now you need a proxy, i reccomend residential, i will make it so you no need one soon
+PORT=8080 # dont change this for now
+```
 
 You will need Node.js 16.x (and above) and Git installed; below is an example for Debian/Ubuntu setup.
 
@@ -64,7 +70,5 @@ Resources for self-hosting:
 ### HTTP Transport
 
 Whalejet uses [libcurl-transport](https://github.com/MercuryWorkshop/libcurl-transport) to fetch proxied data encrypted.
-
-It also uses [wisp-js/server](https://www.npmjs.com/package/@mercuryworkshop/wisp-js).
 
 See the [bare-mux](https://github.com/MercuryWorkshop/bare-mux) documentation for more information.
