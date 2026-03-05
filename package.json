@@ -1,7 +1,7 @@
 {
-	"name": "scramjet-demo",
+	"name": "whalejet-app",
 	"version": "2.0.0",
-	"description": "The demo application for Scramjet, a high-performance web proxy.",
+	"description": "The application for Whalejet, not a web proxy.",
 	"type": "module",
 	"engines": {
 		"npm": ">=7.0.0",
@@ -16,7 +16,7 @@
 	"keywords": [
 		"proxy"
 	],
-	"author": "Mercury Workshop",
+	"author": "Needrose",
 	"license": "GNU AFFERO",
 	"dependencies": {
 		"@fastify/cookie": "^11.0.2",
