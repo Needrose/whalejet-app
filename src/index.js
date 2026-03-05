@@ -73,7 +73,7 @@ fastify.register(proxy, {
                 ...headers,
                 connection: 'upgrade',
                 upgrade: 'websocket',
-                host: '127.0.0.1:8081'
+				'http2-settings': undefined
             };
         }
     }

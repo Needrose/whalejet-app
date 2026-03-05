@@ -16,6 +16,5 @@ RUN pnpm install
 COPY . .
 
 EXPOSE 8080
-EXPOSE 8081
 
-CMD ["sh", "-c", "python3 -m wisp.server --host 0.0.0.0 --port 8081 --proxy $PROXY & pnpm start"]
+CMD ["sh", "-c", "python3 -m wisp.server --host 0.0.0.0 --port 8081 & pnpm start"]
